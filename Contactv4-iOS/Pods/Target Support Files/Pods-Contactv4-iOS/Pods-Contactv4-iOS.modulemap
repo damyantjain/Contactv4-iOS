@@ -1,0 +1,6 @@
+framework module Pods_Contactv4_iOS {
+  umbrella header "Pods-Contactv4-iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
