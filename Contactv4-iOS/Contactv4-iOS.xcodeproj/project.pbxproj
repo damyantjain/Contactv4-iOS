@@ -3,71 +3,90 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F3C76156A59FD067FFAD0A47 /* Pods_Contactv4_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 028A5BB1E032C2CCBD4D2CD1 /* Pods_Contactv4_iOS.framework */; };
+		8EA8A8C3FBB93F3207B6C6FC /* Pods_Contactv4_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D097792D8E49C12008890D4 /* Pods_Contactv4_iOS.framework */; };
+		E1D667C12CC08D0000CE587F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1D667B82CC08D0000CE587F /* Assets.xcassets */; };
+		E1D667C32CC08D0000CE587F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1D667BB2CC08D0000CE587F /* LaunchScreen.storyboard */; };
+		E1D667C42CC08D0000CE587F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1D667BD2CC08D0000CE587F /* Main.storyboard */; };
+		E1D667C52CC08D0000CE587F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D667B72CC08D0000CE587F /* AppDelegate.swift */; };
+		E1D667C62CC08D0000CE587F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D667BE2CC08D0000CE587F /* SceneDelegate.swift */; };
+		E1D667C72CC08D0000CE587F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D667BF2CC08D0000CE587F /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		028A5BB1E032C2CCBD4D2CD1 /* Pods_Contactv4_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Contactv4_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		399DDEAD361FA11A72D64556 /* Pods-Contactv4-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contactv4-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Contactv4-iOS/Pods-Contactv4-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		BAFA451239FCA490A6B48CFD /* Pods-Contactv4-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contactv4-iOS.release.xcconfig"; path = "Target Support Files/Pods-Contactv4-iOS/Pods-Contactv4-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		E1B8A9542CC0675900F37AD1 /* Contactv4-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contactv4-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		39BF547046FAD1EBBA5B3033 /* Pods-Contactv4-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contactv4-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Contactv4-iOS/Pods-Contactv4-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		3D097792D8E49C12008890D4 /* Pods_Contactv4_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Contactv4_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7359DC77EDABCEAF12855212 /* Pods-Contactv4-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contactv4-iOS.release.xcconfig"; path = "Target Support Files/Pods-Contactv4-iOS/Pods-Contactv4-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		E121028D2CC08B4C00FD390F /* Contactv4-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contactv4-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1D667B72CC08D0000CE587F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E1D667B82CC08D0000CE587F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E1D667B92CC08D0000CE587F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1D667BA2CC08D0000CE587F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E1D667BC2CC08D0000CE587F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E1D667BE2CC08D0000CE587F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		E1D667BF2CC08D0000CE587F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E1B8A9512CC0675900F37AD1 /* Frameworks */ = {
+		E121028A2CC08B4C00FD390F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3C76156A59FD067FFAD0A47 /* Pods_Contactv4_iOS.framework in Frameworks */,
+				8EA8A8C3FBB93F3207B6C6FC /* Pods_Contactv4_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		21E9790691E85E92D38F3D4D /* Pods */ = {
+		4A999B32C83EC62CD99AD679 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				399DDEAD361FA11A72D64556 /* Pods-Contactv4-iOS.debug.xcconfig */,
-				BAFA451239FCA490A6B48CFD /* Pods-Contactv4-iOS.release.xcconfig */,
+				39BF547046FAD1EBBA5B3033 /* Pods-Contactv4-iOS.debug.xcconfig */,
+				7359DC77EDABCEAF12855212 /* Pods-Contactv4-iOS.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		D34B3AA25D0FA5813C8CC05F /* Frameworks */ = {
+		C16C597DBB059CB4D81CD6B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				028A5BB1E032C2CCBD4D2CD1 /* Pods_Contactv4_iOS.framework */,
+				3D097792D8E49C12008890D4 /* Pods_Contactv4_iOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E1B8A94B2CC0675900F37AD1 = {
+		E12102842CC08B4C00FD390F = {
 			isa = PBXGroup;
 			children = (
-				E1B8A9562CC0675900F37AD1 /* Contactv4-iOS */,
-				E1B8A9552CC0675900F37AD1 /* Products */,
-				21E9790691E85E92D38F3D4D /* Pods */,
-				D34B3AA25D0FA5813C8CC05F /* Frameworks */,
+				E1D667C02CC08D0000CE587F /* Contactv4-iOS */,
+				E121028E2CC08B4C00FD390F /* Products */,
+				4A999B32C83EC62CD99AD679 /* Pods */,
+				C16C597DBB059CB4D81CD6B7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		E1B8A9552CC0675900F37AD1 /* Products */ = {
+		E121028E2CC08B4C00FD390F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E1B8A9542CC0675900F37AD1 /* Contactv4-iOS.app */,
+				E121028D2CC08B4C00FD390F /* Contactv4-iOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E1B8A9562CC0675900F37AD1 /* Contactv4-iOS */ = {
+		E1D667C02CC08D0000CE587F /* Contactv4-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				E1D667B72CC08D0000CE587F /* AppDelegate.swift */,
+				E1D667B82CC08D0000CE587F /* Assets.xcassets */,
+				E1D667B92CC08D0000CE587F /* Info.plist */,
+				E1D667BB2CC08D0000CE587F /* LaunchScreen.storyboard */,
+				E1D667BD2CC08D0000CE587F /* Main.storyboard */,
+				E1D667BE2CC08D0000CE587F /* SceneDelegate.swift */,
+				E1D667BF2CC08D0000CE587F /* ViewController.swift */,
 			);
 			path = "Contactv4-iOS";
 			sourceTree = "<group>";
@@ -75,15 +94,15 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E1B8A9532CC0675900F37AD1 /* Contactv4-iOS */ = {
+		E121028C2CC08B4C00FD390F /* Contactv4-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E1B8A9672CC0675A00F37AD1 /* Build configuration list for PBXNativeTarget "Contactv4-iOS" */;
+			buildConfigurationList = E12102A02CC08B4D00FD390F /* Build configuration list for PBXNativeTarget "Contactv4-iOS" */;
 			buildPhases = (
-				3FC7CB6AADC3D30F7D1696F2 /* [CP] Check Pods Manifest.lock */,
-				E1B8A9502CC0675900F37AD1 /* Sources */,
-				E1B8A9512CC0675900F37AD1 /* Frameworks */,
-				E1B8A9522CC0675900F37AD1 /* Resources */,
-				C7096C82A0A9300BAB411C74 /* [CP] Embed Pods Frameworks */,
+				5033AEC6CEFF7002811BC4E8 /* [CP] Check Pods Manifest.lock */,
+				E12102892CC08B4C00FD390F /* Sources */,
+				E121028A2CC08B4C00FD390F /* Frameworks */,
+				E121028B2CC08B4C00FD390F /* Resources */,
+				EB7131159EE7DFE533799889 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -91,53 +110,58 @@
 			);
 			name = "Contactv4-iOS";
 			productName = "Contactv4-iOS";
-			productReference = E1B8A9542CC0675900F37AD1 /* Contactv4-iOS.app */;
+			productReference = E121028D2CC08B4C00FD390F /* Contactv4-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		E1B8A94C2CC0675900F37AD1 /* Project object */ = {
+		E12102852CC08B4C00FD390F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
-					E1B8A9532CC0675900F37AD1 = {
+					E121028C2CC08B4C00FD390F = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
-			buildConfigurationList = E1B8A94F2CC0675900F37AD1 /* Build configuration list for PBXProject "Contactv4-iOS" */;
+			buildConfigurationList = E12102882CC08B4C00FD390F /* Build configuration list for PBXProject "Contactv4-iOS" */;
+			compatibilityVersion = "Xcode 15.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = E1B8A94B2CC0675900F37AD1;
-			productRefGroup = E1B8A9552CC0675900F37AD1 /* Products */;
+			mainGroup = E12102842CC08B4C00FD390F;
+			minimizedProjectReferenceProxies = 1;
+			productRefGroup = E121028E2CC08B4C00FD390F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E1B8A9532CC0675900F37AD1 /* Contactv4-iOS */,
+				E121028C2CC08B4C00FD390F /* Contactv4-iOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E1B8A9522CC0675900F37AD1 /* Resources */ = {
+		E121028B2CC08B4C00FD390F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1D667C12CC08D0000CE587F /* Assets.xcassets in Resources */,
+				E1D667C32CC08D0000CE587F /* LaunchScreen.storyboard in Resources */,
+				E1D667C42CC08D0000CE587F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3FC7CB6AADC3D30F7D1696F2 /* [CP] Check Pods Manifest.lock */ = {
+		5033AEC6CEFF7002811BC4E8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -159,7 +183,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C7096C82A0A9300BAB411C74 /* [CP] Embed Pods Frameworks */ = {
+		EB7131159EE7DFE533799889 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -179,25 +203,48 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E1B8A9502CC0675900F37AD1 /* Sources */ = {
+		E12102892CC08B4C00FD390F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1D667C52CC08D0000CE587F /* AppDelegate.swift in Sources */,
+				E1D667C62CC08D0000CE587F /* SceneDelegate.swift in Sources */,
+				E1D667C72CC08D0000CE587F /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		E1D667BB2CC08D0000CE587F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1D667BA2CC08D0000CE587F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		E1D667BD2CC08D0000CE587F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1D667BC2CC08D0000CE587F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
-		E1B8A9682CC0675A00F37AD1 /* Debug */ = {
+		E12102A12CC08B4D00FD390F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 399DDEAD361FA11A72D64556 /* Pods-Contactv4-iOS.debug.xcconfig */;
+			baseConfigurationReference = 39BF547046FAD1EBBA5B3033 /* Pods-Contactv4-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PXC8J5S7PP;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contactv4-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -205,7 +252,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -219,15 +266,16 @@
 			};
 			name = Debug;
 		};
-		E1B8A9692CC0675A00F37AD1 /* Release */ = {
+		E12102A22CC08B4D00FD390F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BAFA451239FCA490A6B48CFD /* Pods-Contactv4-iOS.release.xcconfig */;
+			baseConfigurationReference = 7359DC77EDABCEAF12855212 /* Pods-Contactv4-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PXC8J5S7PP;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Contactv4-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -235,7 +283,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -249,7 +297,7 @@
 			};
 			name = Release;
 		};
-		E1B8A96A2CC0675A00F37AD1 /* Debug */ = {
+		E12102A32CC08B4D00FD390F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -312,7 +360,7 @@
 			};
 			name = Debug;
 		};
-		E1B8A96B2CC0675A00F37AD1 /* Release */ = {
+		E12102A42CC08B4D00FD390F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -371,25 +419,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E1B8A94F2CC0675900F37AD1 /* Build configuration list for PBXProject "Contactv4-iOS" */ = {
+		E12102882CC08B4C00FD390F /* Build configuration list for PBXProject "Contactv4-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E1B8A96A2CC0675A00F37AD1 /* Debug */,
-				E1B8A96B2CC0675A00F37AD1 /* Release */,
+				E12102A32CC08B4D00FD390F /* Debug */,
+				E12102A42CC08B4D00FD390F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E1B8A9672CC0675A00F37AD1 /* Build configuration list for PBXNativeTarget "Contactv4-iOS" */ = {
+		E12102A02CC08B4D00FD390F /* Build configuration list for PBXNativeTarget "Contactv4-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E1B8A9682CC0675A00F37AD1 /* Debug */,
-				E1B8A9692CC0675A00F37AD1 /* Release */,
+				E12102A12CC08B4D00FD390F /* Debug */,
+				E12102A22CC08B4D00FD390F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = E1B8A94C2CC0675900F37AD1 /* Project object */;
+	rootObject = E12102852CC08B4C00FD390F /* Project object */;
 }
