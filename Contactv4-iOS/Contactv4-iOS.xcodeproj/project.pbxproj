@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,7 +13,6 @@
 		E1D667C42CC08D0000CE587F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1D667BD2CC08D0000CE587F /* Main.storyboard */; };
 		E1D667C52CC08D0000CE587F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D667B72CC08D0000CE587F /* AppDelegate.swift */; };
 		E1D667C62CC08D0000CE587F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D667BE2CC08D0000CE587F /* SceneDelegate.swift */; };
-		E1D667C72CC08D0000CE587F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D667BF2CC08D0000CE587F /* ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,8 +26,13 @@
 		E1D667BA2CC08D0000CE587F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E1D667BC2CC08D0000CE587F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E1D667BE2CC08D0000CE587F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E1D667BF2CC08D0000CE587F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		E14423E12CC1776600405C4A /* ViewController */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewController; sourceTree = "<group>"; };
+		E14423E22CC1777B00405C4A /* Data Models */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Data Models"; sourceTree = "<group>"; };
+		E14423E42CC1779200405C4A /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		E121028A2CC08B4C00FD390F /* Frameworks */ = {
@@ -83,10 +87,12 @@
 				E1D667B72CC08D0000CE587F /* AppDelegate.swift */,
 				E1D667B82CC08D0000CE587F /* Assets.xcassets */,
 				E1D667B92CC08D0000CE587F /* Info.plist */,
+				E14423E42CC1779200405C4A /* View */,
+				E14423E22CC1777B00405C4A /* Data Models */,
 				E1D667BB2CC08D0000CE587F /* LaunchScreen.storyboard */,
 				E1D667BD2CC08D0000CE587F /* Main.storyboard */,
+				E14423E12CC1776600405C4A /* ViewController */,
 				E1D667BE2CC08D0000CE587F /* SceneDelegate.swift */,
-				E1D667BF2CC08D0000CE587F /* ViewController.swift */,
 			);
 			path = "Contactv4-iOS";
 			sourceTree = "<group>";
@@ -107,6 +113,11 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				E14423E12CC1776600405C4A /* ViewController */,
+				E14423E22CC1777B00405C4A /* Data Models */,
+				E14423E42CC1779200405C4A /* View */,
 			);
 			name = "Contactv4-iOS";
 			productName = "Contactv4-iOS";
@@ -209,7 +220,6 @@
 			files = (
 				E1D667C52CC08D0000CE587F /* AppDelegate.swift in Sources */,
 				E1D667C62CC08D0000CE587F /* SceneDelegate.swift in Sources */,
-				E1D667C72CC08D0000CE587F /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
