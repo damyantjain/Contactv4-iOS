@@ -11,10 +11,10 @@ import UIKit
 public struct Contact {
     var name: String?
     var email: String?
-    var phone: String?
+    var phone: Int?
 
     init(
-        name: String? = nil, email: String? = nil, phone: String? = nil
+        name: String? = nil, email: String? = nil, phone: Int? = nil
     ) {
         self.name = name
         self.email = email

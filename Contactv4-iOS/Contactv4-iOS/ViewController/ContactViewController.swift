@@ -11,7 +11,7 @@ import UIKit
 class ContactViewController: UIViewController {
 
     var addContactView = ContactView()
-    
+
     var contactData: Contact?
     var isEdit: Bool = false
     let notificationCenter = NotificationCenter.default
@@ -44,8 +44,9 @@ class ContactViewController: UIViewController {
 
     func setUpContactFields() {
         addContactView.nameTextField.text = contactData?.name
-        addContactView.phoneTextField.text = contactData?.phone
         addContactView.emailTextField.text = contactData?.email
+        addContactView.phoneTextField.text =
+            contactData?.phone != nil ? "\(contactData!.phone!)" : nil
     }
 
     @objc func hideKeyboardOnTap() {
@@ -59,11 +60,13 @@ class ContactViewController: UIViewController {
                 //profileViewDelegate.contactData = validation.1
                 //profileViewDelegate.loadProfileData()
                 //landingPageDelegate.updateUserProfile(validation.1)
-                notificationCenter.post(name: .updateContact,
-                                        object: validation.1)
+                notificationCenter.post(
+                    name: .updateContact,
+                    object: validation.1)
             } else {
-                notificationCenter.post(name: .addContact,
-                                        object: validation.1)
+                notificationCenter.post(
+                    name: .addContact,
+                    object: validation.1)
             }
             navigationController?.popViewController(animated: true)
         }
@@ -96,7 +99,7 @@ class ContactViewController: UIViewController {
                 showErrorAlert("Please enter your phone number")
                 return (false, profileData)
             } else {
-                profileData.phone = phoneNumber
+                profileData.phone = Int(phoneNumber) ?? 0
             }
         }
         return (true, profileData)
