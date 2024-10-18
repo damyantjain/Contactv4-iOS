@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8EA8A8C3FBB93F3207B6C6FC /* Pods_Contactv4_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D097792D8E49C12008890D4 /* Pods_Contactv4_iOS.framework */; };
 		E14424212CC1EA5F00405C4A /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14424202CC1EA5800405C4A /* NotificationNames.swift */; };
+		E14424432CC2EE9300405C4A /* APIConfigs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14424422CC2EE9000405C4A /* APIConfigs.swift */; };
 		E1D667C12CC08D0000CE587F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1D667B82CC08D0000CE587F /* Assets.xcassets */; };
 		E1D667C32CC08D0000CE587F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1D667BB2CC08D0000CE587F /* LaunchScreen.storyboard */; };
 		E1D667C42CC08D0000CE587F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1D667BD2CC08D0000CE587F /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 		7359DC77EDABCEAF12855212 /* Pods-Contactv4-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contactv4-iOS.release.xcconfig"; path = "Target Support Files/Pods-Contactv4-iOS/Pods-Contactv4-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		E121028D2CC08B4C00FD390F /* Contactv4-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Contactv4-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E14424202CC1EA5800405C4A /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
+		E14424422CC2EE9000405C4A /* APIConfigs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfigs.swift; sourceTree = "<group>"; };
 		E1D667B72CC08D0000CE587F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1D667B82CC08D0000CE587F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1D667B92CC08D0000CE587F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 		E1D667C02CC08D0000CE587F /* Contactv4-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				E14424422CC2EE9000405C4A /* APIConfigs.swift */,
 				E14424202CC1EA5800405C4A /* NotificationNames.swift */,
 				E1D667B72CC08D0000CE587F /* AppDelegate.swift */,
 				E1D667B82CC08D0000CE587F /* Assets.xcassets */,
@@ -224,6 +227,7 @@
 				E1D667C52CC08D0000CE587F /* AppDelegate.swift in Sources */,
 				E1D667C62CC08D0000CE587F /* SceneDelegate.swift in Sources */,
 				E14424212CC1EA5F00405C4A /* NotificationNames.swift in Sources */,
+				E14424432CC2EE9300405C4A /* APIConfigs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

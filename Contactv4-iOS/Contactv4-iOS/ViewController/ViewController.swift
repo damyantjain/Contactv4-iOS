@@ -5,13 +5,14 @@
 //  Created by Damyant Jain on 9/30/24.
 //
 
+import Alamofire
 import UIKit
 
 class ViewController: UIViewController {
 
     let landingView = LandingView()
 
-    var contacts = [Contact]()
+    var contacts = [String]()
     var selectedContactIndex: Int?
     let notificationCenter = NotificationCenter.default
 
@@ -41,24 +42,44 @@ class ViewController: UIViewController {
             self, selector: #selector(updateContactNotification(notification:)),
             name: .updateContact, object: nil)
 
-        //mock data
-        contacts.append(
-            Contact(
-                name: "Damyant Jain", email: "damyantjain@gmail.com",
-                phone: "+91 9876543210"))
-        contacts.append(
-            Contact(
-                name: "John Doe", email: "john@gmail.com",
-                phone: "+91 9876543210"))
-        contacts.append(
-            Contact(
-                name: "Jane Doe", email: "jane@gmail.com",
-                phone: "+91 9876543210"))
-        contacts.append(
-            Contact(
-                name: "Samantha Doe", email: "samantha@gmail.com",
-                phone: "+91 9876543210"))
+        getAllContacts()
 
+    }
+
+    func getAllContacts() {
+        if let url = URL(string: APIConfigs.baseURL + "getall") {
+            AF.request(url, method: .get).responseString(completionHandler: {
+                response in
+                let status = response.response?.statusCode
+
+                switch response.result {
+                case .success(let data):
+                    if let uwStatusCode = status {
+                        switch uwStatusCode {
+                        case 200...299:
+                            let names = data.components(separatedBy: "\n")
+                            self.contacts = names
+                            self.landingView.contactsTableView.reloadData()
+                            break
+
+                        case 400...499:
+                            print(data)
+                            break
+
+                        default:
+                            print(data)
+                            break
+
+                        }
+                    }
+                    break
+
+                case .failure(let error):
+                    print(error)
+                    break
+                }
+            })
+        }
     }
 
     @objc func onAddBarButtonTapped() {
@@ -69,15 +90,19 @@ class ViewController: UIViewController {
 
     @objc func saveContactNotification(notification: Notification) {
         let contact = (notification.object as! Contact)
-        contacts.append(contact)
-        landingView.contactsTableView.reloadData()
+        if let contactName = contact.name {
+            contacts.append(contactName)
+            landingView.contactsTableView.reloadData()
+        }
     }
 
     @objc func updateContactNotification(notification: Notification) {
         if let selectedContactIndex = selectedContactIndex {
             let contact = (notification.object as! Contact)
-            contacts[selectedContactIndex] = contact
-            landingView.contactsTableView.reloadData()
+            if let contactName = contact.name {
+                contacts[selectedContactIndex] = contactName
+                landingView.contactsTableView.reloadData()
+            }
         }
     }
 }
@@ -96,21 +121,19 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.dequeueReusableCell(
                 withIdentifier: "contacts", for: indexPath)
             as! ContactTableViewCell
-        let contact = contacts[indexPath.row]
+        let name = contacts[indexPath.row]
         cell.selectionStyle = .none
-        cell.nameLabel?.text = contact.name
-        cell.emailLabel?.text = contact.email
-        cell.phoneLabel?.text = contact.phone
+        cell.nameLabel?.text = name
         return cell
     }
 
     func tableView(
         _ tableView: UITableView, didSelectRowAt indexPath: IndexPath
     ) {
-        let contact = contacts[indexPath.row]
+        let contactName = contacts[indexPath.row]
         let profileViewController = ProfileViewController()
         selectedContactIndex = indexPath.row
-        profileViewController.contactData = contact
+        profileViewController.contactName = contactName
         navigationController?.pushViewController(
             profileViewController, animated: true)
     }
