@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddContactView: UIView {
+class ContactView: UIView {
 
     var nameTextField: UITextField!
     var emailTextField: UITextField!
