@@ -11,10 +11,8 @@ import UIKit
 class ContactViewController: UIViewController {
 
     var addContactView = AddContactView()
-
-    var selectedPhoneType: String = "Home"
+    
     var landingPageDelegate: ViewController!
-    var pickedImage: UIImage?
     var contactData: Contact?
     var isEdit: Bool = false
     var profileViewDelegate: ProfileViewController!
