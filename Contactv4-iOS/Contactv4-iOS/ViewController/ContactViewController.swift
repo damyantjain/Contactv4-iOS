@@ -12,10 +12,9 @@ class ContactViewController: UIViewController {
 
     var addContactView = ContactView()
     
-    var landingPageDelegate: ViewController!
     var contactData: Contact?
     var isEdit: Bool = false
-    var profileViewDelegate: ProfileViewController!
+    let notificationCenter = NotificationCenter.default
 
     override func loadView() {
         view = addContactView
@@ -57,11 +56,15 @@ class ContactViewController: UIViewController {
         let validation = validateForm()
         if validation.0 {
             if isEdit {
-                profileViewDelegate.contactData = validation.1
-                profileViewDelegate.loadProfileData()
-                landingPageDelegate.updateUserProfile(validation.1)
+                //profileViewDelegate.contactData = validation.1
+                //profileViewDelegate.loadProfileData()
+                //landingPageDelegate.updateUserProfile(validation.1)
+                notificationCenter.post(name: .saveContact,
+                                        object: validation.1)
             } else {
-                landingPageDelegate.saveContact(validation.1)
+                //landingPageDelegate.saveContact(validation.1)
+                notificationCenter.post(name: .saveContact,
+                                        object: validation.1)
             }
             navigationController?.popViewController(animated: true)
         }

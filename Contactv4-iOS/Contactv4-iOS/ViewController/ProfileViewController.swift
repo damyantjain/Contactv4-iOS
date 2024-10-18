@@ -11,7 +11,6 @@ class ProfileViewController: UIViewController {
 
     var profileView = ProfileView()
     var contactData: Contact = Contact()
-    var landingPageDelegate: ViewController!
 
     override func loadView() {
         view = profileView
@@ -30,8 +29,6 @@ class ProfileViewController: UIViewController {
     @objc func onEditButtonTapped() {
         let editProfileVC = ContactViewController()
         editProfileVC.contactData = contactData
-        editProfileVC.landingPageDelegate = landingPageDelegate
-        editProfileVC.profileViewDelegate = self
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
 
