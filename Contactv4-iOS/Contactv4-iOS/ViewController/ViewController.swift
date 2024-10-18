@@ -13,6 +13,7 @@ class ViewController: UIViewController {
 
     var contacts = [Contact]()
     var selectedContactIndex: Int?
+    let notificationCenter = NotificationCenter.default
 
     override func loadView() {
         view = landingView
@@ -28,34 +29,57 @@ class ViewController: UIViewController {
         landingView.contactsTableView.delegate = self
         landingView.contactsTableView.dataSource = self
         landingView.contactsTableView.separatorStyle = .none
-        
+
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(
+                saveContactNotification(notification:)),
+            name: .addContact,
+            object: nil)
+
+        notificationCenter.addObserver(
+            self, selector: #selector(updateContactNotification(notification:)),
+            name: .updateContact, object: nil)
+
         //mock data
-        contacts.append(Contact(name: "Damyant Jain", email: "damyantjain@gmail.com", phone: "+91 9876543210"))
-        contacts.append(Contact(name: "John Doe", email: "john@gmail.com", phone: "+91 9876543210"))
-        contacts.append(Contact(name: "Jane Doe", email: "jane@gmail.com", phone: "+91 9876543210"))
-        contacts.append(Contact(name: "Samantha Doe", email: "samantha@gmail.com", phone: "+91 9876543210"))
+        contacts.append(
+            Contact(
+                name: "Damyant Jain", email: "damyantjain@gmail.com",
+                phone: "+91 9876543210"))
+        contacts.append(
+            Contact(
+                name: "John Doe", email: "john@gmail.com",
+                phone: "+91 9876543210"))
+        contacts.append(
+            Contact(
+                name: "Jane Doe", email: "jane@gmail.com",
+                phone: "+91 9876543210"))
+        contacts.append(
+            Contact(
+                name: "Samantha Doe", email: "samantha@gmail.com",
+                phone: "+91 9876543210"))
 
     }
 
     @objc func onAddBarButtonTapped() {
         let addContactViewController = ContactViewController()
-        addContactViewController.landingPageDelegate = self
         navigationController?.pushViewController(
             addContactViewController, animated: true)
     }
 
-    func saveContact(_ contact: Contact) {
+    @objc func saveContactNotification(notification: Notification) {
+        let contact = (notification.object as! Contact)
         contacts.append(contact)
         landingView.contactsTableView.reloadData()
     }
 
-    func updateUserProfile(_ contact: Contact) {
+    @objc func updateContactNotification(notification: Notification) {
         if let selectedContactIndex = selectedContactIndex {
+            let contact = (notification.object as! Contact)
             contacts[selectedContactIndex] = contact
             landingView.contactsTableView.reloadData()
         }
     }
-
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -87,7 +111,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let profileViewController = ProfileViewController()
         selectedContactIndex = indexPath.row
         profileViewController.contactData = contact
-        profileViewController.landingPageDelegate = self
         navigationController?.pushViewController(
             profileViewController, animated: true)
     }

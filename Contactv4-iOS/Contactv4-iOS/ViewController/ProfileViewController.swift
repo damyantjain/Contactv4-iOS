@@ -11,7 +11,7 @@ class ProfileViewController: UIViewController {
 
     var profileView = ProfileView()
     var contactData: Contact = Contact()
-    var landingPageDelegate: ViewController!
+    let notificationCenter = NotificationCenter.default
 
     override func loadView() {
         view = profileView
@@ -23,16 +23,20 @@ class ProfileViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .edit, target: self,
             action: #selector(onEditButtonTapped))
-
+        notificationCenter.addObserver(self, selector: #selector(updateContactNotification(notification:)), name: .updateContact, object: nil)
+        
         loadProfileData()
     }
 
     @objc func onEditButtonTapped() {
         let editProfileVC = ContactViewController()
         editProfileVC.contactData = contactData
-        editProfileVC.landingPageDelegate = landingPageDelegate
-        editProfileVC.profileViewDelegate = self
         navigationController?.pushViewController(editProfileVC, animated: true)
+    }
+    
+    @objc func updateContactNotification(notification: Notification) {
+        contactData = (notification.object as! Contact)
+        loadProfileData()
     }
 
     func loadProfileData() {
