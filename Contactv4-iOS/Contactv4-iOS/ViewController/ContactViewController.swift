@@ -10,7 +10,7 @@ import UIKit
 
 class ContactViewController: UIViewController {
 
-    var addContactView = AddContactView()
+    var addContactView = ContactView()
     
     var landingPageDelegate: ViewController!
     var contactData: Contact?
