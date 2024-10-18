@@ -11,6 +11,7 @@ class ProfileViewController: UIViewController {
 
     var profileView = ProfileView()
     var contactData: Contact = Contact()
+    var contactName: String?
     let notificationCenter = NotificationCenter.default
 
     override func loadView() {
@@ -40,9 +41,12 @@ class ProfileViewController: UIViewController {
     }
 
     func loadProfileData() {
-        profileView.nameValueLabel.text = contactData.name
-        profileView.emailValueLabel.text = "Email: \(contactData.email ?? "")"
-        profileView.phoneValueLabel.text = "Phone: \(contactData.phone ?? "")"
+        //fetch data of contact
+        profileView.nameValueLabel.text = contactName
+        
+//        profileView.nameValueLabel.text = contactData.name
+//        profileView.emailValueLabel.text = "Email: \(contactData.email ?? "")"
+//        profileView.phoneValueLabel.text = "Phone: \(contactData.phone ?? "")"
     }
 
 }
