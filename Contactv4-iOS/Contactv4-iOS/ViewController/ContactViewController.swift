@@ -59,11 +59,10 @@ class ContactViewController: UIViewController {
                 //profileViewDelegate.contactData = validation.1
                 //profileViewDelegate.loadProfileData()
                 //landingPageDelegate.updateUserProfile(validation.1)
-                notificationCenter.post(name: .saveContact,
+                notificationCenter.post(name: .updateContact,
                                         object: validation.1)
             } else {
-                //landingPageDelegate.saveContact(validation.1)
-                notificationCenter.post(name: .saveContact,
+                notificationCenter.post(name: .addContact,
                                         object: validation.1)
             }
             navigationController?.popViewController(animated: true)

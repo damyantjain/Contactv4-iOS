@@ -11,6 +11,7 @@ class ProfileViewController: UIViewController {
 
     var profileView = ProfileView()
     var contactData: Contact = Contact()
+    let notificationCenter = NotificationCenter.default
 
     override func loadView() {
         view = profileView
@@ -22,7 +23,8 @@ class ProfileViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .edit, target: self,
             action: #selector(onEditButtonTapped))
-
+        notificationCenter.addObserver(self, selector: #selector(updateContactNotification(notification:)), name: .updateContact, object: nil)
+        
         loadProfileData()
     }
 
@@ -30,6 +32,11 @@ class ProfileViewController: UIViewController {
         let editProfileVC = ContactViewController()
         editProfileVC.contactData = contactData
         navigationController?.pushViewController(editProfileVC, animated: true)
+    }
+    
+    @objc func updateContactNotification(notification: Notification) {
+        contactData = (notification.object as! Contact)
+        loadProfileData()
     }
 
     func loadProfileData() {

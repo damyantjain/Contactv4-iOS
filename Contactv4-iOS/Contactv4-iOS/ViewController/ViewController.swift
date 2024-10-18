@@ -34,8 +34,12 @@ class ViewController: UIViewController {
             self,
             selector: #selector(
                 saveContactNotification(notification:)),
-            name: .saveContact,
+            name: .addContact,
             object: nil)
+
+        notificationCenter.addObserver(
+            self, selector: #selector(updateContactNotification(notification:)),
+            name: .updateContact, object: nil)
 
         //mock data
         contacts.append(
@@ -69,18 +73,13 @@ class ViewController: UIViewController {
         landingView.contactsTableView.reloadData()
     }
 
-    func saveContact(_ contact: Contact) {
-        contacts.append(contact)
-        landingView.contactsTableView.reloadData()
-    }
-
-    func updateUserProfile(_ contact: Contact) {
+    @objc func updateContactNotification(notification: Notification) {
         if let selectedContactIndex = selectedContactIndex {
+            let contact = (notification.object as! Contact)
             contacts[selectedContactIndex] = contact
             landingView.contactsTableView.reloadData()
         }
     }
-
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
