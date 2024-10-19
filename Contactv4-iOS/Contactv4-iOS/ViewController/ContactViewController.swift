@@ -7,6 +7,7 @@
 
 import PhotosUI
 import UIKit
+import Alamofire
 
 class ContactViewController: UIViewController {
 
@@ -46,7 +47,7 @@ class ContactViewController: UIViewController {
         addContactView.nameTextField.text = contactData?.name
         addContactView.emailTextField.text = contactData?.email
         addContactView.phoneTextField.text =
-            contactData?.phone != nil ? "\(contactData!.phone!)" : nil
+            contactData?.phone != nil ? "\(contactData!.phone)" : nil
     }
 
     @objc func hideKeyboardOnTap() {
@@ -57,23 +58,80 @@ class ContactViewController: UIViewController {
         let validation = validateForm()
         if validation.0 {
             if isEdit {
-                //profileViewDelegate.contactData = validation.1
-                //profileViewDelegate.loadProfileData()
-                //landingPageDelegate.updateUserProfile(validation.1)
                 notificationCenter.post(
                     name: .updateContact,
                     object: validation.1)
             } else {
-                notificationCenter.post(
-                    name: .addContact,
-                    object: validation.1)
+                addContact(validation.1)
             }
             navigationController?.popViewController(animated: true)
         }
     }
+    
+    func addContact(_ contact: Contact){
+        if let name = addContactView.nameTextField.text,
+           let email = addContactView.emailTextField.text,
+           let phoneText = addContactView.phoneTextField.text{
+            
+            if let phone = Int(phoneText){
+                let contact = Contact(name: name, email: email, phone: phone)
+                addANewContact(contact: contact)
+            }else{
+                //alert...
+            }
+        }
+        else{
+            //alert....
+        }
+    }
+    
+    func addANewContact(contact: Contact){
+        if let url = URL(string: APIConfigs.baseURL+"add"){
+            
+            AF.request(url, method:.post, parameters:
+                        [
+                            "name": contact.name,
+                            "email": contact.email,
+                            "phone": contact.phone
+                        ])
+                .responseString(completionHandler: { response in
+                    let status = response.response?.statusCode
+                    
+                    switch response.result{
+                    case .success(let data):
+                        if let uwStatusCode = status{
+                            switch uwStatusCode{
+                                case 200...299:
+                                //self.clearAddViewFields()
+                                self.notificationCenter.post(
+                                    name: .addContact,
+                                    object: nil)
+                                    break
+                        
+                                case 400...499:
+                                    print(data)
+                                    break
+                        
+                                default:
+                                    print(data)
+                                    break
+                        
+                            }
+                        }
+                        break
+                        
+                    case .failure(let error):
+                        print(error)
+                        break
+                    }
+                })
+        }else{
+            //alert that the URL is invalid...
+        }
+    }
 
     func validateForm() -> (Bool, Contact) {
-        var profileData = Contact()
+        var profileData = Contact(name: "", email: "", phone: 0)
 
         //check if fields are not empty
         if let name = addContactView.nameTextField.text {

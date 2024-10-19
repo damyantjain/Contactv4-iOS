@@ -81,6 +81,48 @@ class ViewController: UIViewController {
             })
         }
     }
+    
+    func addANewContact(contact: Contact){
+        if let url = URL(string: APIConfigs.baseURL+"add"){
+            
+            AF.request(url, method:.post, parameters:
+                        [
+                            "name": contact.name,
+                            "email": contact.email,
+                            "phone": contact.phone
+                        ])
+                .responseString(completionHandler: { response in
+                    let status = response.response?.statusCode
+                    
+                    switch response.result{
+                    case .success(let data):
+                        if let uwStatusCode = status{
+                            switch uwStatusCode{
+                                case 200...299:
+                                self.getAllContacts()
+                                //self.clearAddViewFields()
+                                    break
+                        
+                                case 400...499:
+                                    print(data)
+                                    break
+                        
+                                default:
+                                    print(data)
+                                    break
+                        
+                            }
+                        }
+                        break
+                        
+                    case .failure(let error):
+                        print(error)
+                        break
+                    }
+                })
+        }else{
+        }
+    }
 
     @objc func onAddBarButtonTapped() {
         let addContactViewController = ContactViewController()
@@ -89,20 +131,14 @@ class ViewController: UIViewController {
     }
 
     @objc func saveContactNotification(notification: Notification) {
-        let contact = (notification.object as! Contact)
-        if let contactName = contact.name {
-            contacts.append(contactName)
-            landingView.contactsTableView.reloadData()
-        }
+        getAllContacts()
     }
 
     @objc func updateContactNotification(notification: Notification) {
         if let selectedContactIndex = selectedContactIndex {
             let contact = (notification.object as! Contact)
-            if let contactName = contact.name {
-                contacts[selectedContactIndex] = contactName
-                landingView.contactsTableView.reloadData()
-            }
+            contacts[selectedContactIndex] = contact.name
+            landingView.contactsTableView.reloadData()
         }
     }
 }

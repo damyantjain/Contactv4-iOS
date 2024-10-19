@@ -20,8 +20,6 @@ class ContactTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupWrapperCellView()
         setUpNameLabel()
-//        setUpEmailLabel()
-//        setUpPhoneLabel()
         initConstraints()
     }
 
@@ -39,20 +37,6 @@ class ContactTableViewCell: UITableViewCell {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
         wrapperCellView.addSubview(nameLabel)
-    }
-
-    func setUpEmailLabel() {
-        emailLabel = UILabel()
-        emailLabel.translatesAutoresizingMaskIntoConstraints = false
-        emailLabel.font = emailLabel.font.withSize(16)
-        wrapperCellView.addSubview(emailLabel)
-    }
-
-    func setUpPhoneLabel() {
-        phoneLabel = UILabel()
-        phoneLabel.translatesAutoresizingMaskIntoConstraints = false
-        phoneLabel.font = phoneLabel.font.withSize(16)
-        wrapperCellView.addSubview(phoneLabel)
     }
 
     func initConstraints() {
@@ -73,20 +57,6 @@ class ContactTableViewCell: UITableViewCell {
             nameLabel.leadingAnchor.constraint(
                 equalTo: wrapperCellView.leadingAnchor, constant: 8),
             nameLabel.heightAnchor.constraint(equalToConstant: 20),
-
-//            //email label
-//            emailLabel.topAnchor.constraint(
-//                lessThanOrEqualTo: nameLabel.bottomAnchor, constant: 4),
-//            emailLabel.leadingAnchor.constraint(
-//                equalTo: wrapperCellView.leadingAnchor, constant: 8),
-//            emailLabel.heightAnchor.constraint(equalToConstant: 20),
-//
-//            //phone label
-//            phoneLabel.topAnchor.constraint(
-//                lessThanOrEqualTo: emailLabel.bottomAnchor, constant: 4),
-//            phoneLabel.leadingAnchor.constraint(
-//                equalTo: wrapperCellView.leadingAnchor, constant: 8),
-//            phoneLabel.heightAnchor.constraint(equalToConstant: 20),
 
             wrapperCellView.heightAnchor.constraint(equalToConstant: 30),
         ])
