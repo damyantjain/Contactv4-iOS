@@ -53,7 +53,6 @@ class ProfileViewController: UIViewController {
             AF.request(url, method: .get, parameters: ["name":name])
                 .responseData(completionHandler: { response in
                 let status = response.response?.statusCode
-                    print("URL: \(url)")
 
                 switch response.result{
                 case .success(let data):
