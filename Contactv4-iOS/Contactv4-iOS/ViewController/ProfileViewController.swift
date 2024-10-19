@@ -42,48 +42,50 @@ class ProfileViewController: UIViewController {
         loadProfileData(name: contactName ?? "")
     }
 
-    func displayData(data: Contact) {
-        profileView.nameValueLabel.text = data.name
-        profileView.emailValueLabel.text = "Email: \(data.email)"
-        profileView.phoneValueLabel.text = "Phone: \(data.phone)"
+    func displayData() {
+        profileView.nameValueLabel.text = contactData.name
+        profileView.emailValueLabel.text = "Email: \(contactData.email)"
+        profileView.phoneValueLabel.text = "Phone: \(contactData.phone)"
     }
-    
-    func loadProfileData(name: String){
-        if let url = URL(string: APIConfigs.jsonBaseUrl+"details"){
-            AF.request(url, method: .get, parameters: ["name":name])
-                .responseData(completionHandler: { response in
-                let status = response.response?.statusCode
 
-                switch response.result{
-                case .success(let data):
-                    if let uwStatusCode = status{
-                        switch uwStatusCode{
+    func loadProfileData(name: String) {
+        if let url = URL(string: APIConfigs.jsonBaseUrl + "details") {
+            AF.request(url, method: .get, parameters: ["name": name])
+                .responseData(completionHandler: { response in
+                    let status = response.response?.statusCode
+
+                    switch response.result {
+                    case .success(let data):
+                        if let uwStatusCode = status {
+                            switch uwStatusCode {
                             case 200...299:
                                 let decoder = JSONDecoder()
-                                do{
-                                    let receivedData = try decoder
+                                do {
+                                    let receivedData =
+                                        try decoder
                                         .decode(Contact.self, from: data)
-                                    self.displayData(data: receivedData)
-                                }catch(let error){
+                                    self.contactData = receivedData
+                                    self.displayData()
+                                } catch (let error) {
                                     print(error)
                                 }
                                 break
-                    
+
                             case 400...499:
                                 break
-                    
+
                             default:
                                 break
-                    
+
+                            }
                         }
+                        break
+
+                    case .failure(let error):
+                        print(error)
+                        break
                     }
-                    break
-                    
-                case .failure(let error):
-                    print(error)
-                    break
-                }
-            })
+                })
         }
     }
 

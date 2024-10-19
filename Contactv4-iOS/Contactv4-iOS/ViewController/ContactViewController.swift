@@ -32,7 +32,6 @@ class ContactViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .save, target: self,
             action: #selector(onSaveButtonTapped))
-
         if contactData != nil {
             setUpContactFields()
             isEdit = true
