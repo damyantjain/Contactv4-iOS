@@ -141,6 +141,14 @@ class ViewController: UIViewController {
             landingView.contactsTableView.reloadData()
         }
     }
+    
+    func editSelectedFor(contact: Int){
+        print("Will edit \(contacts[contact])")
+    }
+
+    func deleteSelectedFor(contact: Int){
+        print("Will delete \(contacts[contact])")
+    }
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -160,6 +168,25 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let name = contacts[indexPath.row]
         cell.selectionStyle = .none
         cell.nameLabel?.text = name
+        
+        let buttonOptions = UIButton(type: .system)
+            buttonOptions.sizeToFit()
+            buttonOptions.showsMenuAsPrimaryAction = true
+            //MARK: setting an icon from sf symbols...
+            buttonOptions.setImage(UIImage(systemName: "slider.horizontal.3"), for: .normal)
+            
+            //MARK: setting up menu for button options click...
+            buttonOptions.menu = UIMenu(title: "Edit/Delete?",
+                                        children: [
+                                            UIAction(title: "Edit",handler: {(_) in
+                                                self.editSelectedFor(contact: indexPath.row)
+                                            }),
+                                            UIAction(title: "Delete",handler: {(_) in
+                                                self.deleteSelectedFor(contact: indexPath.row)
+                                            })
+                                        ])
+            cell.accessoryView = buttonOptions
+        
         return cell
     }
 
