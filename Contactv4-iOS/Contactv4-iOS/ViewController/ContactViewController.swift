@@ -5,9 +5,9 @@
 //  Created by Damyant Jain on 10/1/24.
 //
 
+import Alamofire
 import PhotosUI
 import UIKit
-import Alamofire
 
 class ContactViewController: UIViewController {
 
@@ -61,71 +61,11 @@ class ContactViewController: UIViewController {
                     name: .updateContact,
                     object: validation.1)
             } else {
-                addContact(validation.1)
+                notificationCenter.post(
+                    name: .addContact,
+                    object: validation.1)
             }
             navigationController?.popViewController(animated: true)
-        }
-    }
-    
-    func addContact(_ contact: Contact){
-        if let name = addContactView.nameTextField.text,
-           let email = addContactView.emailTextField.text,
-           let phoneText = addContactView.phoneTextField.text{
-            
-            if let phone = Int(phoneText){
-                let contact = Contact(name: name, email: email, phone: phone)
-                addANewContact(contact: contact)
-            }else{
-                //alert...
-            }
-        }
-        else{
-            //alert....
-        }
-    }
-    
-    func addANewContact(contact: Contact){
-        if let url = URL(string: APIConfigs.baseURL+"add"){
-            
-            AF.request(url, method:.post, parameters:
-                        [
-                            "name": contact.name,
-                            "email": contact.email,
-                            "phone": contact.phone
-                        ])
-                .responseString(completionHandler: { response in
-                    let status = response.response?.statusCode
-                    
-                    switch response.result{
-                    case .success(let data):
-                        if let uwStatusCode = status{
-                            switch uwStatusCode{
-                                case 200...299:
-                                //self.clearAddViewFields()
-                                self.notificationCenter.post(
-                                    name: .addContact,
-                                    object: nil)
-                                    break
-                        
-                                case 400...499:
-                                    print(data)
-                                    break
-                        
-                                default:
-                                    print(data)
-                                    break
-                        
-                            }
-                        }
-                        break
-                        
-                    case .failure(let error):
-                        print(error)
-                        break
-                    }
-                })
-        }else{
-            //alert that the URL is invalid...
         }
     }
 
