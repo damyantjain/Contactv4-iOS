@@ -8,6 +8,5 @@
 import Foundation
 
 class APIConfigs{
-    static let baseURL = "http://apis.sakibnm.work:8888/contacts/text/"
-    static let jsonBaseUrl = "http://apis.sakibnm.work:8888/contacts/json/"
+    static let baseURL = "http://apis.sakibnm.work:8888/contacts/json/"
 }

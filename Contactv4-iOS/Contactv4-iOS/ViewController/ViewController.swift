@@ -48,7 +48,7 @@ class ViewController: UIViewController {
 
     func getAllContacts() {
         if let url = URL(string: APIConfigs.baseURL + "getall") {
-            AF.request(url, method: .get).responseString(completionHandler: {
+            AF.request(url, method: .get).responseData(completionHandler: {
                 response in
                 let status = response.response?.statusCode
 
@@ -57,17 +57,28 @@ class ViewController: UIViewController {
                     if let uwStatusCode = status {
                         switch uwStatusCode {
                         case 200...299:
-                            let names = data.components(separatedBy: "\n")
-                            self.contacts = names
-                            self.landingView.contactsTableView.reloadData()
+                            self.contacts.removeAll()
+                            let decoder = JSONDecoder()
+                            do {
+                                let receivedData =
+                                    try decoder
+                                    .decode(ContactsList.self, from: data)
+
+                                for item in receivedData.contacts {
+                                    self.contacts.append(item.name)
+                                }
+                                self.landingView.contactsTableView.reloadData()
+                            } catch {
+                                print("JSON couldn't be decoded.")
+                            }
                             break
 
                         case 400...499:
-                            print(data)
+                            print("Client error: \(status!)")
                             break
 
                         default:
-                            print(data)
+                            print("Server error: \(status!)")
                             break
 
                         }
@@ -75,52 +86,89 @@ class ViewController: UIViewController {
                     break
 
                 case .failure(let error):
-                    print(error)
+                    print("Request failed with error: \(error)")
                     break
                 }
             })
         }
     }
-    
-    func addANewContact(contact: Contact){
-        if let url = URL(string: APIConfigs.baseURL+"add"){
-            
-            AF.request(url, method:.post, parameters:
-                        [
-                            "name": contact.name,
-                            "email": contact.email,
-                            "phone": contact.phone
-                        ])
-                .responseString(completionHandler: { response in
+
+    func addANewContact(contact: Contact) {
+        if let url = URL(string: APIConfigs.baseURL + "add") {
+
+            AF.request(
+                url, method: .post,
+                parameters: [
+                    "name": contact.name,
+                    "email": contact.email,
+                    "phone": contact.phone,
+                ]
+            )
+            .responseString(completionHandler: { response in
+                let status = response.response?.statusCode
+
+                switch response.result {
+                case .success(let data):
+                    if let uwStatusCode = status {
+                        switch uwStatusCode {
+                        case 200...299:
+                            self.getAllContacts()
+                            break
+
+                        case 400...499:
+                            print("Client error: \(status!)")
+                            break
+
+                        default:
+                            print("Server error: \(status!)")
+                            break
+
+                        }
+                    }
+                    break
+
+                case .failure(let error):
+                    print("Request failed with error: \(error)")
+                    break
+                }
+            })
+        } else {
+        }
+    }
+
+    func deleteContact(contact: String) {
+        if let url = URL(string: APIConfigs.baseURL + "delete") {
+
+            AF.request(url, method: .get, parameters: ["name": contact])
+                .responseData(completionHandler: { response in
                     let status = response.response?.statusCode
-                    
-                    switch response.result{
-                    case .success(let data):
-                        if let uwStatusCode = status{
-                            switch uwStatusCode{
-                                case 200...299:
+
+                    switch response.result {
+                    case .success(_):
+                        if let uwStatusCode = status {
+                            switch uwStatusCode {
+                            case 200...299:
                                 self.getAllContacts()
-                                //self.clearAddViewFields()
-                                    break
-                        
-                                case 400...499:
-                                    print(data)
-                                    break
-                        
-                                default:
-                                    print(data)
-                                    break
-                        
+                                break
+
+                            case 400...499:
+                                print("Client error: \(status!)")
+                                break
+
+                            default:
+                                print("Server error: \(status!)")
+                                break
+
                             }
                         }
                         break
-                        
+
                     case .failure(let error):
-                        print(error)
+                        print("Request failed with error: \(error)")
                         break
                     }
                 })
-        }else{
+        } else {
         }
     }
 
@@ -141,13 +189,34 @@ class ViewController: UIViewController {
             landingView.contactsTableView.reloadData()
         }
     }
-    
-    func editSelectedFor(contact: Int){
+
+    func editSelectedFor(contact: Int) {
         print("Will edit \(contacts[contact])")
     }
 
-    func deleteSelectedFor(contact: Int){
-        print("Will delete \(contacts[contact])")
+    func deleteSelectedFor(contact: Int) {
+        let alert = UIAlertController(
+            title: "Delete",
+            message: "Are you sure you want to delete this contact?",
+            preferredStyle: .alert
+        )
+
+        alert.addAction(
+            UIAlertAction(
+                title: "YES", style: .default,
+                handler: { action in
+                    //                    self.contacts.remove(at: contact)
+                    //                    self.landingView.contactsTableView.reloadData()
+                    self.deleteContact(contactId: contact)
+                }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        self.present(alert, animated: true)
+    }
+
+    func deleteContact(contactId: Int) {
+        let contactName = contacts[contactId]
+        deleteContact(contact: contactName)
     }
 }
 
@@ -168,25 +237,29 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let name = contacts[indexPath.row]
         cell.selectionStyle = .none
         cell.nameLabel?.text = name
-        
+
         let buttonOptions = UIButton(type: .system)
-            buttonOptions.sizeToFit()
-            buttonOptions.showsMenuAsPrimaryAction = true
-            //MARK: setting an icon from sf symbols...
-            buttonOptions.setImage(UIImage(systemName: "slider.horizontal.3"), for: .normal)
-            
-            //MARK: setting up menu for button options click...
-            buttonOptions.menu = UIMenu(title: "Edit/Delete?",
-                                        children: [
-                                            UIAction(title: "Edit",handler: {(_) in
-                                                self.editSelectedFor(contact: indexPath.row)
-                                            }),
-                                            UIAction(title: "Delete",handler: {(_) in
-                                                self.deleteSelectedFor(contact: indexPath.row)
-                                            })
-                                        ])
-            cell.accessoryView = buttonOptions
-        
+        buttonOptions.sizeToFit()
+        buttonOptions.showsMenuAsPrimaryAction = true
+        buttonOptions.setImage(
+            UIImage(systemName: "slider.horizontal.3"), for: .normal)
+
+        buttonOptions.menu = UIMenu(
+            title: "Edit/Delete?",
+            children: [
+                UIAction(
+                    title: "Edit",
+                    handler: { (_) in
+                        self.editSelectedFor(contact: indexPath.row)
+                    }),
+                UIAction(
+                    title: "Delete",
+                    handler: { (_) in
+                        self.deleteSelectedFor(contact: indexPath.row)
+                    }),
+            ])
+        cell.accessoryView = buttonOptions
+
         return cell
     }
 
