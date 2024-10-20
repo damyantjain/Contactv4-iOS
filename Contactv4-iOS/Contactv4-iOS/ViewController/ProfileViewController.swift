@@ -49,7 +49,7 @@ class ProfileViewController: UIViewController {
     }
 
     func loadProfileData(name: String) {
-        if let url = URL(string: APIConfigs.jsonBaseUrl + "details") {
+        if let url = URL(string: APIConfigs.baseURL + "details") {
             AF.request(url, method: .get, parameters: ["name": name])
                 .responseData(completionHandler: { response in
                     let status = response.response?.statusCode
