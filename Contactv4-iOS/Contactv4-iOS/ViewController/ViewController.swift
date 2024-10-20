@@ -108,7 +108,7 @@ class ViewController: UIViewController {
                 let status = response.response?.statusCode
 
                 switch response.result {
-                case .success(let data):
+                case .success(_):
                     if let uwStatusCode = status {
                         switch uwStatusCode {
                         case 200...299:
@@ -179,7 +179,8 @@ class ViewController: UIViewController {
     }
 
     @objc func saveContactNotification(notification: Notification) {
-        getAllContacts()
+        let contact = (notification.object as! Contact)
+        addANewContact(contact: contact)
     }
 
     @objc func updateContactNotification(notification: Notification) {
@@ -218,6 +219,7 @@ class ViewController: UIViewController {
         let contactName = contacts[contactId]
         deleteContact(contact: contactName)
     }
+
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
