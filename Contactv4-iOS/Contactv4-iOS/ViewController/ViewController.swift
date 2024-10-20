@@ -136,7 +136,8 @@ class ViewController: UIViewController {
         }
     }
 
-    func deleteContact(contact: String) {
+    func deleteContact(contact: String) -> Bool {
+        var isDeleted: Bool = false
         if let url = URL(string: APIConfigs.baseURL + "delete") {
 
             AF.request(url, method: .get, parameters: ["name": contact])
@@ -149,6 +150,7 @@ class ViewController: UIViewController {
                             switch uwStatusCode {
                             case 200...299:
                                 self.getAllContacts()
+                                isDeleted = true;
                                 break
 
                             case 400...499:
@@ -170,6 +172,7 @@ class ViewController: UIViewController {
                 })
         } else {
         }
+        return isDeleted
     }
 
     @objc func onAddBarButtonTapped() {
@@ -186,8 +189,11 @@ class ViewController: UIViewController {
     @objc func updateContactNotification(notification: Notification) {
         if let selectedContactIndex = selectedContactIndex {
             let contact = (notification.object as! Contact)
-            contacts[selectedContactIndex] = contact.name
-            landingView.contactsTableView.reloadData()
+            let contactName = contacts[selectedContactIndex]
+            let isDeleted = deleteContact(contact: contactName)
+            if(isDeleted) {
+                addANewContact(contact: contact)
+            }
         }
     }
 
@@ -206,18 +212,12 @@ class ViewController: UIViewController {
             UIAlertAction(
                 title: "YES", style: .default,
                 handler: { action in
-                    //                    self.contacts.remove(at: contact)
-                    //                    self.landingView.contactsTableView.reloadData()
-                    self.deleteContact(contactId: contact)
+                    let contactName = self.contacts[contact]
+                    _ = self.deleteContact(contact: contactName)
                 }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
         self.present(alert, animated: true)
-    }
-
-    func deleteContact(contactId: Int) {
-        let contactName = contacts[contactId]
-        deleteContact(contact: contactName)
     }
 
 }
