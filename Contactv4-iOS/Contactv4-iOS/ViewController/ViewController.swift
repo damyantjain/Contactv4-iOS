@@ -93,7 +93,8 @@ class ViewController: UIViewController {
         }
     }
 
-    func addANewContact(contact: Contact) {
+    func addANewContact(contact: Contact, completion: @escaping (Bool) -> Void)
+    {
         if let url = URL(string: APIConfigs.baseURL + "add") {
 
             AF.request(
@@ -112,14 +113,16 @@ class ViewController: UIViewController {
                     if let uwStatusCode = status {
                         switch uwStatusCode {
                         case 200...299:
-                            self.getAllContacts()
+                            completion(true)
                             break
 
                         case 400...499:
+                            completion(false)
                             print("Client error: \(status!)")
                             break
 
                         default:
+                            completion(false)
                             print("Server error: \(status!)")
                             break
 
@@ -136,8 +139,7 @@ class ViewController: UIViewController {
         }
     }
 
-    func deleteContact(contact: String) -> Bool {
-        var isDeleted: Bool = false
+    func deleteContact(contact: String, completion: @escaping (Bool) -> Void) {
         if let url = URL(string: APIConfigs.baseURL + "delete") {
 
             AF.request(url, method: .get, parameters: ["name": contact])
@@ -149,16 +151,17 @@ class ViewController: UIViewController {
                         if let uwStatusCode = status {
                             switch uwStatusCode {
                             case 200...299:
-                                self.getAllContacts()
-                                isDeleted = true;
+                                completion(true)
                                 break
 
                             case 400...499:
                                 print("Client error: \(status!)")
+                                completion(false)
                                 break
 
                             default:
                                 print("Server error: \(status!)")
+                                completion(false)
                                 break
 
                             }
@@ -172,7 +175,6 @@ class ViewController: UIViewController {
                 })
         } else {
         }
-        return isDeleted
     }
 
     @objc func onAddBarButtonTapped() {
@@ -183,22 +185,30 @@ class ViewController: UIViewController {
 
     @objc func saveContactNotification(notification: Notification) {
         let contact = (notification.object as! Contact)
-        addANewContact(contact: contact)
+        addANewContact(contact: contact) { isAdded in
+            if isAdded {
+                self.getAllContacts()
+            }
+        }
     }
 
     @objc func updateContactNotification(notification: Notification) {
         if let selectedContactIndex = selectedContactIndex {
             let contact = (notification.object as! Contact)
             let contactName = contacts[selectedContactIndex]
-            let isDeleted = deleteContact(contact: contactName)
-            if(isDeleted) {
-                addANewContact(contact: contact)
+            deleteContact(contact: contactName) { isDeleted in
+                if isDeleted {
+                    self.addANewContact(contact: contact) { isAdded in
+                        if isAdded {
+                            self.notificationCenter.post(
+                                name: .contactEdited,
+                                object: contact.name)
+                            self.getAllContacts()
+                        }
+                    }
+                }
             }
         }
-    }
-
-    func editSelectedFor(contact: Int) {
-        print("Will edit \(contacts[contact])")
     }
 
     func deleteSelectedFor(contact: Int) {
@@ -213,7 +223,11 @@ class ViewController: UIViewController {
                 title: "YES", style: .default,
                 handler: { action in
                     let contactName = self.contacts[contact]
-                    _ = self.deleteContact(contact: contactName)
+                    self.deleteContact(contact: contactName) { isDeleted in
+                        if isDeleted {
+                            self.getAllContacts()
+                        }
+                    }
                 }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
@@ -242,26 +256,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
         let buttonOptions = UIButton(type: .system)
         buttonOptions.sizeToFit()
-        buttonOptions.showsMenuAsPrimaryAction = true
+        buttonOptions.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
         buttonOptions.setImage(
-            UIImage(systemName: "slider.horizontal.3"), for: .normal)
-
-        buttonOptions.menu = UIMenu(
-            title: "Edit/Delete?",
-            children: [
-                UIAction(
-                    title: "Edit",
-                    handler: { (_) in
-                        self.editSelectedFor(contact: indexPath.row)
-                    }),
-                UIAction(
-                    title: "Delete",
-                    handler: { (_) in
-                        self.deleteSelectedFor(contact: indexPath.row)
-                    }),
-            ])
+            UIImage(systemName: "trash"), for: .normal)
+        buttonOptions.addAction(
+            UIAction(
+                title: "Delete",
+                handler: { (_) in
+                    self.deleteSelectedFor(contact: indexPath.row)
+                }), for: .touchUpInside)
         cell.accessoryView = buttonOptions
-
         return cell
     }
 

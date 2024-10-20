@@ -27,7 +27,7 @@ class ProfileViewController: UIViewController {
             action: #selector(onEditButtonTapped))
         notificationCenter.addObserver(
             self, selector: #selector(updateContactNotification(notification:)),
-            name: .updateContact, object: nil)
+            name: .contactEdited, object: nil)
         loadProfileData(name: contactName ?? "")
     }
 
@@ -38,7 +38,7 @@ class ProfileViewController: UIViewController {
     }
 
     @objc func updateContactNotification(notification: Notification) {
-        contactData = (notification.object as! Contact)
+        contactName = (notification.object as! String)
         loadProfileData(name: contactName ?? "")
     }
 
