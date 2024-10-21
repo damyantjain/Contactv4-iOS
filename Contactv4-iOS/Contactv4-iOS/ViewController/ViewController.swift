@@ -73,7 +73,7 @@ class ViewController: UIViewController {
             if isDeleted {
                 await getAllContacts()
             } else {
-                print("Failed to delete contact")
+                showErrorAlert("Oops", "Failed to delete contact")
             }
         } catch {
             print("Error deleting contact: \(error)")
@@ -98,6 +98,16 @@ class ViewController: UIViewController {
         )
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
+        self.present(alert, animated: true)
+    }
+    
+    func showErrorAlert(_ title: String, _ message: String) {
+        let alert = UIAlertController(
+            title: title, message: "\(message)",
+            preferredStyle: .alert
+        )
+
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(alert, animated: true)
     }
 
@@ -146,4 +156,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         navigationController?.pushViewController(
             profileViewController, animated: true)
     }
+    
+    
 }

@@ -63,44 +63,63 @@ class ContactViewController: UIViewController {
 
     func handleSaveButtonTapped() async {
         let validation = validateForm()
+        if !validation.0 {
+            return
+        }
+        if isEdit {
+            await handleEditContact(contact: validation.1)
+        } else {
+            await handleAddNewContact(contact: validation.1)
+        }
+    }
 
-        if validation.0 {
-            if isEdit {
-                do {
-                    let response = try await contactsAPI.deleteContact(
-                        name: contactName ?? "")
-                    if response {
-                        do {
-                            let success = try await contactsAPI.addANewContact(
-                                contact: validation.1)
-                            if success {
-                                notificationCenter.post(
-                                    name: .updateContact,
-                                    object: validation.1)
-                                navigationController?.popViewController(animated: true)
-                            }
-                        } catch {
-                            print("Add contact API call failed with error: \(error)")
-                        }
+    func handleEditContact(contact: Contact) async {
+        do {
+            let response = try await contactsAPI.deleteContact(
+                name: contactName ?? "")
 
-                    }
-                } catch {
-                    print("Delete contact API call failed with error: \(error)")
-
-                }
+            if response {
+                await addContactAndNotify(contact: contact)
             } else {
-                do {
-                    let success = try await contactsAPI.addANewContact(
-                        contact: validation.1)
-                    if success {
-                        notificationCenter.post(name: .addContact, object: nil)
-                        navigationController?.popViewController(animated: true)
-                    }
-                } catch {
-                    print("API call failed with error: \(error)")
-                    showErrorAlert("Failed to add contact. Please try again.")
-                }
+                showErrorAlert(
+                    "Oops", "Failed to delete contact. Please try again.")
             }
+        } catch {
+            print("Delete contact API call failed with error: \(error)")
+            showErrorAlert(
+                "Oops", "Failed to delete contact. Please try again.")
+        }
+    }
+
+    func handleAddNewContact(contact: Contact) async {
+        do {
+            let success = try await contactsAPI.addANewContact(contact: contact)
+
+            if success {
+                notificationCenter.post(name: .addContact, object: nil)
+                navigationController?.popViewController(animated: true)
+            } else {
+                showErrorAlert("Oops", "Failed to add new contact")
+            }
+        } catch {
+            print("API call failed with error: \(error)")
+            showErrorAlert("Oops", "Failed to add contact. Please try again.")
+        }
+    }
+
+    private func addContactAndNotify(contact: Contact) async {
+        do {
+            let success = try await contactsAPI.addANewContact(contact: contact)
+
+            if success {
+                notificationCenter.post(name: .updateContact, object: contact)
+                navigationController?.popViewController(animated: true)
+            } else {
+                showErrorAlert("Oops", "Failed to add new contact")
+            }
+        } catch {
+            print("Add contact API call failed with error: \(error)")
+            showErrorAlert("Oops", "Failed to add contact. Please try again.")
         }
     }
 
@@ -110,7 +129,7 @@ class ContactViewController: UIViewController {
         //check if fields are not empty
         if let name = addContactView.nameTextField.text {
             if name.isEmpty {
-                showErrorAlert("Please enter your name")
+                showErrorAlert("Validation Error", "Please enter your name")
                 return (false, profileData)
             } else {
                 profileData.name = name
@@ -119,7 +138,7 @@ class ContactViewController: UIViewController {
 
         if let email = addContactView.emailTextField.text {
             if email.isEmpty || !isValidEmail(email) {
-                showErrorAlert("Please enter a valid email")
+                showErrorAlert("Validation Error", "Please enter a valid email")
                 return (false, profileData)
             } else {
                 profileData.email = email
@@ -128,7 +147,8 @@ class ContactViewController: UIViewController {
 
         if let phoneNumber = addContactView.phoneTextField.text {
             if phoneNumber.isEmpty {
-                showErrorAlert("Please enter your phone number")
+                showErrorAlert(
+                    "Validation Error", "Please enter your phone number")
                 return (false, profileData)
             } else {
                 profileData.phone = Int(phoneNumber) ?? 0
@@ -153,9 +173,9 @@ class ContactViewController: UIViewController {
             && !arr[1].trimmingCharacters(in: .whitespaces).isEmpty
     }
 
-    func showErrorAlert(_ message: String) {
+    func showErrorAlert(_ title: String, _ message: String) {
         let alert = UIAlertController(
-            title: "Validation Error", message: "\(message)",
+            title: title, message: "\(message)",
             preferredStyle: .alert
         )
 
