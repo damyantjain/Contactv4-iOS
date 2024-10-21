@@ -59,8 +59,17 @@ class ProfileViewController: UIViewController {
                 name: name)
             self.displayData()
         } catch {
-            print("API call to fetch details failed")
+            showErrorAlert("Oops", "API call to fetch details failed")
         }
     }
+    
+    func showErrorAlert(_ title: String, _ message: String) {
+        let alert = UIAlertController(
+            title: title, message: "\(message)",
+            preferredStyle: .alert
+        )
 
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
+    }
 }
