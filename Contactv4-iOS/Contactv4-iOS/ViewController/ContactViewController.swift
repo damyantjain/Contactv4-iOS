@@ -6,7 +6,6 @@
 //
 
 import Alamofire
-import PhotosUI
 import UIKit
 
 class ContactViewController: UIViewController {
