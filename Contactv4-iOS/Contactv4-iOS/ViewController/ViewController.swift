@@ -32,12 +32,12 @@ class ViewController: UIViewController {
 
         notificationCenter.addObserver(
             self,
-            selector: #selector(handleAddContactNotification),
+            selector: #selector(getAllContactNotification),
             name: .addContact,
             object: nil)
 
         notificationCenter.addObserver(
-            self, selector: #selector(updateContactNotification(notification:)),
+            self, selector: #selector(getAllContactNotification),
             name: .updateContact, object: nil)
 
         Task { await getAllContacts() }
@@ -59,41 +59,9 @@ class ViewController: UIViewController {
             addContactViewController, animated: true)
     }
 
-    @objc func handleAddContactNotification() {
+    @objc func getAllContactNotification() {
         Task {
             await getAllContacts()
-        }
-    }
-
-    @objc func updateContactNotification(notification: Notification) {
-        Task {
-            await updateContact(notification: notification)
-        }
-    }
-
-    func updateContact(notification: Notification) async {
-        if let selectedContactIndex = selectedContactIndex {
-            let contact = (notification.object as! Contact)
-            let contactName = contacts[selectedContactIndex]
-            do {
-                var response = try await contactsAPI.deleteContact(
-                    name: contactName)
-                if response {
-                    do {
-                        let success = try await contactsAPI.addANewContact(
-                            contact: contact)
-                        if success {
-                            await getAllContacts()
-                        }
-                    } catch {
-                        print("API call failed with error: \(error)")
-                    }
-
-                }
-            } catch {
-                print("API call failed with error: \(error)")
-
-            }
         }
     }
 

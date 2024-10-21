@@ -89,7 +89,33 @@ class ContactsAPI: ContactsProtocol {
     }
 
     func getContactDetails(name: String) async throws -> Contact {
-        return Contact(name: "", email: "", phone: 0)
+        let url = APIConfigs.baseURL + "details"
+        var contact: Contact = Contact(name: "", email: "", phone: 0)
+        let request = AF.request(url, method: .get, parameters: ["name": name])
+        let response = await request.serializingData().response
+        let status = response.response?.statusCode
+        switch response.result {
+        case .success(let data):
+            if let statusCode = status {
+                switch statusCode {
+                case 200...299:
+                    contact = try JSONDecoder().decode(Contact.self, from: data)
+                    break
+                case 400...499:
+                    print("Client error: \(status!)")
+                    break
+                default:
+                    print("Server error: \(status!)")
+                    break
+                }
+            }
+            break
+        case .failure(let error):
+            print("Request failed with error: \(error)")
+            break
+        }
+
+        return contact
     }
 
     func deleteContact(name: String) async throws -> Bool {
