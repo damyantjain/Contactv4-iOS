@@ -7,9 +7,13 @@
 
 import Foundation
 
-protocol ContactsProtocol{
-    func getAllContacts()
-    func addANewContact(contact: Contact)
-    func getContactDetails(name: String)
+protocol ContactsProtocol {
+    
+    func getAllContacts() async throws -> [Contact]
+    
+    func addANewContact(contact: Contact) async throws -> String
+    
+    func getContactDetails(name: String) async throws -> Contact
+    
+    func deleteContact(name: String) async throws -> String
 }
-

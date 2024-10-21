@@ -278,5 +278,5 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         profileViewController.contactName = contactName
         navigationController?.pushViewController(
             profileViewController, animated: true)
-    }
+    }   
 }
