@@ -58,30 +58,31 @@ class ContactViewController: UIViewController {
             await handleSaveButtonTapped()
         }
     }
-    
+
     func handleSaveButtonTapped() async {
-            let validation = validateForm()
+        let validation = validateForm()
 
-            if validation.0 {
-                if isEdit {
-                    notificationCenter.post(
-                        name: .updateContact,
-                        object: validation.1)
-                } else {
-                    do {
-                        let success = try await contactsAPI.addANewContact(contact: validation.1)
-                        if success  {
-                            notificationCenter.post(name: .addContact, object: nil)
+        if validation.0 {
+            if isEdit {
+                notificationCenter.post(
+                    name: .updateContact,
+                    object: validation.1)
+            } else {
+                do {
+                    let success = try await contactsAPI.addANewContact(
+                        contact: validation.1)
+                    if success {
+                        notificationCenter.post(name: .addContact, object: nil)
 
-                            navigationController?.popViewController(animated: true)
-                        }
-                    } catch {
-                        print("API call failed with error: \(error)")
-                        showErrorAlert("Failed to add contact. Please try again.")
+                        navigationController?.popViewController(animated: true)
                     }
+                } catch {
+                    print("API call failed with error: \(error)")
+                    showErrorAlert("Failed to add contact. Please try again.")
                 }
             }
         }
+    }
 
     func validateForm() -> (Bool, Contact) {
         var profileData = Contact(name: "", email: "", phone: 0)

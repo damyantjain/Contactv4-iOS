@@ -53,90 +53,6 @@ class ViewController: UIViewController {
         }
     }
 
-    func addANewContact(contact: Contact, completion: @escaping (Bool) -> Void)
-    {
-        if let url = URL(string: APIConfigs.baseURL + "add") {
-
-            AF.request(
-                url, method: .post,
-                parameters: [
-                    "name": contact.name,
-                    "email": contact.email,
-                    "phone": contact.phone,
-                ]
-            )
-            .responseString(completionHandler: { response in
-                let status = response.response?.statusCode
-
-                switch response.result {
-                case .success(_):
-                    if let uwStatusCode = status {
-                        switch uwStatusCode {
-                        case 200...299:
-                            completion(true)
-                            break
-
-                        case 400...499:
-                            completion(false)
-                            print("Client error: \(status!)")
-                            break
-
-                        default:
-                            completion(false)
-                            print("Server error: \(status!)")
-                            break
-
-                        }
-                    }
-                    break
-
-                case .failure(let error):
-                    print("Request failed with error: \(error)")
-                    break
-                }
-            })
-        } else {
-        }
-    }
-
-    func deleteContact(contact: String, completion: @escaping (Bool) -> Void) {
-        if let url = URL(string: APIConfigs.baseURL + "delete") {
-
-            AF.request(url, method: .get, parameters: ["name": contact])
-                .responseData(completionHandler: { response in
-                    let status = response.response?.statusCode
-
-                    switch response.result {
-                    case .success(_):
-                        if let uwStatusCode = status {
-                            switch uwStatusCode {
-                            case 200...299:
-                                completion(true)
-                                break
-
-                            case 400...499:
-                                print("Client error: \(status!)")
-                                completion(false)
-                                break
-
-                            default:
-                                print("Server error: \(status!)")
-                                completion(false)
-                                break
-
-                            }
-                        }
-                        break
-
-                    case .failure(let error):
-                        print("Request failed with error: \(error)")
-                        break
-                    }
-                })
-        } else {
-        }
-    }
-
     @objc func onAddBarButtonTapped() {
         let addContactViewController = ContactViewController()
         navigationController?.pushViewController(
@@ -150,21 +66,49 @@ class ViewController: UIViewController {
     }
 
     @objc func updateContactNotification(notification: Notification) {
+        Task {
+            await updateContact(notification: notification)
+        }
+    }
+
+    func updateContact(notification: Notification) async {
         if let selectedContactIndex = selectedContactIndex {
             let contact = (notification.object as! Contact)
             let contactName = contacts[selectedContactIndex]
-            deleteContact(contact: contactName) { isDeleted in
-                if isDeleted {
-                    self.addANewContact(contact: contact) { isAdded in
-                        if isAdded {
-                            self.notificationCenter.post(
-                                name: .contactEdited,
-                                object: contact.name)
-                            //  self.getAllContacts()
+            do {
+                var response = try await contactsAPI.deleteContact(
+                    name: contactName)
+                if response {
+                    do {
+                        let success = try await contactsAPI.addANewContact(
+                            contact: contact)
+                        if success {
+                            await getAllContacts()
                         }
+                    } catch {
+                        print("API call failed with error: \(error)")
                     }
+
                 }
+            } catch {
+                print("API call failed with error: \(error)")
+
             }
+        }
+    }
+
+    func deleteContact(at index: Int) async {
+        let contactName = contacts[index]
+        do {
+            let isDeleted = try await contactsAPI.deleteContact(
+                name: contactName)
+            if isDeleted {
+                await getAllContacts()
+            } else {
+                print("Failed to delete contact")
+            }
+        } catch {
+            print("Error deleting contact: \(error)")
         }
     }
 
@@ -178,14 +122,12 @@ class ViewController: UIViewController {
         alert.addAction(
             UIAlertAction(
                 title: "YES", style: .default,
-                handler: { action in
-                    let contactName = self.contacts[contact]
-                    self.deleteContact(contact: contactName) { isDeleted in
-                        if isDeleted {
-                            //self.getAllContacts()
-                        }
+                handler: { _ in
+                    Task {
+                        await self.deleteContact(at: contact)
                     }
-                }))
+                })
+        )
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
         self.present(alert, animated: true)

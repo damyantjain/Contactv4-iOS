@@ -51,7 +51,7 @@ class ContactsAPI: ContactsProtocol {
     }
 
     func addANewContact(contact: Contact) async throws -> Bool {
-        
+
         let url = APIConfigs.baseURL + "add"
         let request = AF.request(
             url, method: .post,
@@ -63,7 +63,7 @@ class ContactsAPI: ContactsProtocol {
         )
         let response = await request.serializingData().response
         let status = response.response?.statusCode
-        var success : Bool = false
+        var success: Bool = false
         switch response.result {
         case .success(_):
             if let statusCode = status {
@@ -93,7 +93,35 @@ class ContactsAPI: ContactsProtocol {
     }
 
     func deleteContact(name: String) async throws -> Bool {
-        return false
-    }
+        let url = APIConfigs.baseURL + "delete"
+        let request = AF.request(url, method: .get, parameters: ["name": name])
+        let response = await request.serializingData().response
+        let status = response.response?.statusCode
+        var success: Bool = false
+        switch response.result {
+        case .success(_):
+            if let uwStatusCode = status {
+                switch uwStatusCode {
+                case 200...299:
+                    success = true
+                    break
 
+                case 400...499:
+                    print("Client error: \(status!)")
+                    break
+
+                default:
+                    print("Server error: \(status!)")
+                    break
+
+                }
+            }
+            break
+
+        case .failure(let error):
+            print("Request failed with error: \(error)")
+            break
+        }
+        return success
+    }
 }
