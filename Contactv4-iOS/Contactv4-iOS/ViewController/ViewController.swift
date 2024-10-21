@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     let landingView = LandingView()
-
+    var contactsAPI = ContactsAPI()
     var contacts = [String]()
     var selectedContactIndex: Int?
     let notificationCenter = NotificationCenter.default
@@ -26,7 +26,6 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add, target: self,
             action: #selector(onAddBarButtonTapped))
-
         landingView.contactsTableView.delegate = self
         landingView.contactsTableView.dataSource = self
         landingView.contactsTableView.separatorStyle = .none
@@ -42,54 +41,16 @@ class ViewController: UIViewController {
             self, selector: #selector(updateContactNotification(notification:)),
             name: .updateContact, object: nil)
 
-        getAllContacts()
+        Task { await getAllContacts() }
 
     }
 
-    func getAllContacts() {
-        if let url = URL(string: APIConfigs.baseURL + "getall") {
-            AF.request(url, method: .get).responseData(completionHandler: {
-                response in
-                let status = response.response?.statusCode
-
-                switch response.result {
-                case .success(let data):
-                    if let uwStatusCode = status {
-                        switch uwStatusCode {
-                        case 200...299:
-                            self.contacts.removeAll()
-                            let decoder = JSONDecoder()
-                            do {
-                                let receivedData =
-                                    try decoder
-                                    .decode(ContactsList.self, from: data)
-
-                                for item in receivedData.contacts {
-                                    self.contacts.append(item.name)
-                                }
-                                self.landingView.contactsTableView.reloadData()
-                            } catch {
-                                print("JSON couldn't be decoded.")
-                            }
-                            break
-
-                        case 400...499:
-                            print("Client error: \(status!)")
-                            break
-
-                        default:
-                            print("Server error: \(status!)")
-                            break
-
-                        }
-                    }
-                    break
-
-                case .failure(let error):
-                    print("Request failed with error: \(error)")
-                    break
-                }
-            })
+    func getAllContacts() async {
+        do {
+            contacts = try await contactsAPI.getAllContacts()
+            self.landingView.contactsTableView.reloadData()
+        } catch {
+            print("error")
         }
     }
 
@@ -187,7 +148,7 @@ class ViewController: UIViewController {
         let contact = (notification.object as! Contact)
         addANewContact(contact: contact) { isAdded in
             if isAdded {
-                self.getAllContacts()
+                //self.getAllContacts()
             }
         }
     }
@@ -203,7 +164,7 @@ class ViewController: UIViewController {
                             self.notificationCenter.post(
                                 name: .contactEdited,
                                 object: contact.name)
-                            self.getAllContacts()
+                            //  self.getAllContacts()
                         }
                     }
                 }
@@ -225,7 +186,7 @@ class ViewController: UIViewController {
                     let contactName = self.contacts[contact]
                     self.deleteContact(contact: contactName) { isDeleted in
                         if isDeleted {
-                            self.getAllContacts()
+                            //self.getAllContacts()
                         }
                     }
                 }))
@@ -278,5 +239,5 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         profileViewController.contactName = contactName
         navigationController?.pushViewController(
             profileViewController, animated: true)
-    }   
+    }
 }
