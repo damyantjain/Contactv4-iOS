@@ -11,6 +11,7 @@ import UIKit
 class ProfileViewController: UIViewController {
 
     var profileView = ProfileView()
+    var contactsAPI = ContactsAPI()
     var contactData: Contact = Contact(name: "", email: "", phone: 0)
     var contactName: String?
     let notificationCenter = NotificationCenter.default
@@ -25,10 +26,14 @@ class ProfileViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .edit, target: self,
             action: #selector(onEditButtonTapped))
+
         notificationCenter.addObserver(
             self, selector: #selector(updateContactNotification(notification:)),
             name: .updateContact, object: nil)
-        loadProfileData(name: contactName ?? "")
+
+        Task {
+            await loadProfileData(name: contactName ?? "")
+        }
     }
 
     @objc func onEditButtonTapped() {
@@ -39,7 +44,7 @@ class ProfileViewController: UIViewController {
 
     @objc func updateContactNotification(notification: Notification) {
         contactData = (notification.object as! Contact)
-        loadProfileData(name: contactName ?? "")
+        displayData()
     }
 
     func displayData() {
@@ -48,44 +53,13 @@ class ProfileViewController: UIViewController {
         profileView.phoneValueLabel.text = "Phone: \(contactData.phone)"
     }
 
-    func loadProfileData(name: String) {
-        if let url = URL(string: APIConfigs.baseURL + "details") {
-            AF.request(url, method: .get, parameters: ["name": name])
-                .responseData(completionHandler: { response in
-                    let status = response.response?.statusCode
-
-                    switch response.result {
-                    case .success(let data):
-                        if let uwStatusCode = status {
-                            switch uwStatusCode {
-                            case 200...299:
-                                let decoder = JSONDecoder()
-                                do {
-                                    let receivedData =
-                                        try decoder
-                                        .decode(Contact.self, from: data)
-                                    self.contactData = receivedData
-                                    self.displayData()
-                                } catch (let error) {
-                                    print(error)
-                                }
-                                break
-
-                            case 400...499:
-                                break
-
-                            default:
-                                break
-
-                            }
-                        }
-                        break
-
-                    case .failure(let error):
-                        print(error)
-                        break
-                    }
-                })
+    func loadProfileData(name: String) async {
+        do {
+            contactData = try await contactsAPI.getContactDetails(
+                name: name)
+            self.displayData()
+        } catch {
+            print("API call to fetch details failed")
         }
     }
 

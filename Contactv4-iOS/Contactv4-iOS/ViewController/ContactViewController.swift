@@ -12,8 +12,9 @@ import UIKit
 class ContactViewController: UIViewController {
 
     var addContactView = ContactView()
-
+    var contactsAPI = ContactsAPI()
     var contactData: Contact?
+    var contactName: String?
     var isEdit: Bool = false
     let notificationCenter = NotificationCenter.default
 
@@ -34,6 +35,7 @@ class ContactViewController: UIViewController {
             action: #selector(onSaveButtonTapped))
         if contactData != nil {
             setUpContactFields()
+            contactName = contactData?.name
             isEdit = true
             title = "Edit Contact"
         } else {
@@ -54,18 +56,51 @@ class ContactViewController: UIViewController {
     }
 
     @objc func onSaveButtonTapped() {
+        Task {
+            await handleSaveButtonTapped()
+        }
+    }
+
+    func handleSaveButtonTapped() async {
         let validation = validateForm()
+
         if validation.0 {
             if isEdit {
-                notificationCenter.post(
-                    name: .updateContact,
-                    object: validation.1)
+                do {
+                    let response = try await contactsAPI.deleteContact(
+                        name: contactName ?? "")
+                    if response {
+                        do {
+                            let success = try await contactsAPI.addANewContact(
+                                contact: validation.1)
+                            if success {
+                                notificationCenter.post(
+                                    name: .updateContact,
+                                    object: validation.1)
+                                navigationController?.popViewController(animated: true)
+                            }
+                        } catch {
+                            print("Add contact API call failed with error: \(error)")
+                        }
+
+                    }
+                } catch {
+                    print("Delete contact API call failed with error: \(error)")
+
+                }
             } else {
-                notificationCenter.post(
-                    name: .addContact,
-                    object: validation.1)
+                do {
+                    let success = try await contactsAPI.addANewContact(
+                        contact: validation.1)
+                    if success {
+                        notificationCenter.post(name: .addContact, object: nil)
+                        navigationController?.popViewController(animated: true)
+                    }
+                } catch {
+                    print("API call failed with error: \(error)")
+                    showErrorAlert("Failed to add contact. Please try again.")
+                }
             }
-            navigationController?.popViewController(animated: true)
         }
     }
 
