@@ -12,7 +12,7 @@ import UIKit
 class ContactViewController: UIViewController {
 
     var addContactView = ContactView()
-
+    var contactsAPI = ContactsAPI()
     var contactData: Contact?
     var isEdit: Bool = false
     let notificationCenter = NotificationCenter.default
@@ -54,20 +54,34 @@ class ContactViewController: UIViewController {
     }
 
     @objc func onSaveButtonTapped() {
-        let validation = validateForm()
-        if validation.0 {
-            if isEdit {
-                notificationCenter.post(
-                    name: .updateContact,
-                    object: validation.1)
-            } else {
-                notificationCenter.post(
-                    name: .addContact,
-                    object: validation.1)
-            }
-            navigationController?.popViewController(animated: true)
+        Task {
+            await handleSaveButtonTapped()
         }
     }
+    
+    func handleSaveButtonTapped() async {
+            let validation = validateForm()
+
+            if validation.0 {
+                if isEdit {
+                    notificationCenter.post(
+                        name: .updateContact,
+                        object: validation.1)
+                } else {
+                    do {
+                        let success = try await contactsAPI.addANewContact(contact: validation.1)
+                        if success  {
+                            notificationCenter.post(name: .addContact, object: nil)
+
+                            navigationController?.popViewController(animated: true)
+                        }
+                    } catch {
+                        print("API call failed with error: \(error)")
+                        showErrorAlert("Failed to add contact. Please try again.")
+                    }
+                }
+            }
+        }
 
     func validateForm() -> (Bool, Contact) {
         var profileData = Contact(name: "", email: "", phone: 0)

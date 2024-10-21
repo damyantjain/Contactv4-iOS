@@ -32,8 +32,7 @@ class ViewController: UIViewController {
 
         notificationCenter.addObserver(
             self,
-            selector: #selector(
-                saveContactNotification(notification:)),
+            selector: #selector(handleAddContactNotification),
             name: .addContact,
             object: nil)
 
@@ -144,12 +143,9 @@ class ViewController: UIViewController {
             addContactViewController, animated: true)
     }
 
-    @objc func saveContactNotification(notification: Notification) {
-        let contact = (notification.object as! Contact)
-        addANewContact(contact: contact) { isAdded in
-            if isAdded {
-                //self.getAllContacts()
-            }
+    @objc func handleAddContactNotification() {
+        Task {
+            await getAllContacts()
         }
     }
 
