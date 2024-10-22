@@ -12,7 +12,7 @@ class ViewController: UIViewController {
 
     let landingView = LandingView()
     var contactsAPI = ContactsAPI()
-    var contacts = [String]()
+    var contacts = [ContactName]()
     var selectedContactIndex: Int?
     let notificationCenter = NotificationCenter.default
 
@@ -69,7 +69,7 @@ class ViewController: UIViewController {
         let contactName = contacts[index]
         do {
             let isDeleted = try await contactsAPI.deleteContact(
-                name: contactName)
+                name: contactName.name)
             if isDeleted {
                 await getAllContacts()
             } else {

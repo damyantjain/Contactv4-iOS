@@ -13,7 +13,7 @@ class ProfileViewController: UIViewController {
     var profileView = ProfileView()
     var contactsAPI = ContactsAPI()
     var contactData: Contact = Contact(name: "", email: "", phone: 0)
-    var contactName: String?
+    var contactName: ContactName?
     let notificationCenter = NotificationCenter.default
 
     override func loadView() {
@@ -32,7 +32,7 @@ class ProfileViewController: UIViewController {
             name: .updateContact, object: nil)
 
         Task {
-            await loadProfileData(name: contactName ?? "")
+            await loadProfileData(name: contactName?.name ?? "")
         }
     }
 
