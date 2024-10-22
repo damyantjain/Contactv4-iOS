@@ -9,8 +9,8 @@ import Alamofire
 import Foundation
 
 class ContactsAPI: ContactsProtocol {
-    func getAllContacts() async throws -> [String] {
-        var contacts: [String] = []
+    func getAllContacts() async throws -> [ContactName] {
+        var contacts: [ContactName] = []
         let url = APIConfigs.baseURL + "getall"
         let request = AF.request(url)
         let response = await request.serializingData().response
@@ -26,7 +26,7 @@ class ContactsAPI: ContactsProtocol {
                             try decoder
                             .decode(ContactsList.self, from: data)
                         for item in receivedData.contacts {
-                            contacts.append(item.name)
+                            contacts.append(ContactName(name: item.name))
                         }
                     } catch {
                         print("JSON couldn't be decoded.")

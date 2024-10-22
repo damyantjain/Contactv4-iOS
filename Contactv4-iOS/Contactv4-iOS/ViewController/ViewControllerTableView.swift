@@ -21,9 +21,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.dequeueReusableCell(
                 withIdentifier: "contacts", for: indexPath)
             as! ContactTableViewCell
-        let name = contacts[indexPath.row]
+        let contactName = contacts[indexPath.row]
         cell.selectionStyle = .none
-        cell.nameLabel?.text = name
+        cell.nameLabel?.text = contactName.name
 
         let buttonOptions = UIButton(type: .system)
         buttonOptions.sizeToFit()
@@ -43,10 +43,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(
         _ tableView: UITableView, didSelectRowAt indexPath: IndexPath
     ) {
-        let contactName = contacts[indexPath.row]
+        let contact = contacts[indexPath.row]
         let profileViewController = ProfileViewController()
         selectedContactIndex = indexPath.row
-        profileViewController.contactName = contactName
+        profileViewController.contactName = contact
         navigationController?.pushViewController(
             profileViewController, animated: true)
     }

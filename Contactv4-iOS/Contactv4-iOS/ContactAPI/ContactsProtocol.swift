@@ -9,7 +9,7 @@ import Foundation
 
 protocol ContactsProtocol {
     
-    func getAllContacts() async throws -> [String]
+    func getAllContacts() async throws -> [ContactName]
     
     func addANewContact(contact: Contact) async throws -> Bool
     
