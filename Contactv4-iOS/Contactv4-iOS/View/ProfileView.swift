@@ -8,6 +8,8 @@
 import UIKit
 
 class ProfileView: UIView {
+
+    var contentWrapper: UIScrollView!
     var nameValueLabel: UILabel!
     var emailValueLabel: UILabel!
     var phoneValueLabel: UILabel!
@@ -15,11 +17,18 @@ class ProfileView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
+        setupContentWrapper()
         setUpProfileValueLabel()
         setUpEmailValueLabel()
         setUpPhoneValueLabel()
 
         initConstraints()
+    }
+
+    func setupContentWrapper() {
+        contentWrapper = UIScrollView()
+        contentWrapper.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(contentWrapper)
     }
 
     func setUpProfileValueLabel() {
@@ -45,24 +54,34 @@ class ProfileView: UIView {
 
     func initConstraints() {
         NSLayoutConstraint.activate([
+            
+            //Scroll view
+            contentWrapper.topAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.topAnchor),
+            contentWrapper.leadingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            contentWrapper.widthAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.widthAnchor),
+            contentWrapper.heightAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.heightAnchor),
 
             //Name Label
             nameValueLabel.centerXAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+                equalTo: contentWrapper.centerXAnchor),
             nameValueLabel.topAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 32),
+                equalTo: contentWrapper.topAnchor, constant: 32),
 
             //Email Label
             emailValueLabel.topAnchor.constraint(
                 equalTo: nameValueLabel.bottomAnchor, constant: 30),
             emailValueLabel.centerXAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+                equalTo: contentWrapper.centerXAnchor),
 
             //Phone Label
             phoneValueLabel.topAnchor.constraint(
                 equalTo: emailValueLabel.bottomAnchor, constant: 18),
             phoneValueLabel.centerXAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+                equalTo: contentWrapper.centerXAnchor),
         ])
     }
 

@@ -9,6 +9,7 @@ import UIKit
 
 class ContactView: UIView {
 
+    var contentWrapper: UIScrollView!
     var nameTextField: UITextField!
     var emailTextField: UITextField!
     var phoneTextField: UITextField!
@@ -16,11 +17,18 @@ class ContactView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
+        setupContentWrapper()
         setUpNameTextField()
         setUpEmailTextField()
         setUpPhoneTextField()
 
         initConstraints()
+    }
+
+    func setupContentWrapper() {
+        contentWrapper = UIScrollView()
+        contentWrapper.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(contentWrapper)
     }
 
     func setUpNameTextField() {
@@ -52,11 +60,21 @@ class ContactView: UIView {
     func initConstraints() {
         NSLayoutConstraint.activate([
 
+            //scroll view
+            contentWrapper.topAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.topAnchor),
+            contentWrapper.leadingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            contentWrapper.widthAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.widthAnchor),
+            contentWrapper.heightAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.heightAnchor),
+
             //name field
             nameTextField.topAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 12),
+                equalTo: contentWrapper.topAnchor, constant: 12),
             nameTextField.centerXAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+                equalTo: contentWrapper.centerXAnchor),
             nameTextField.widthAnchor.constraint(equalToConstant: 300),
             nameTextField.heightAnchor.constraint(equalToConstant: 30),
 
@@ -64,14 +82,14 @@ class ContactView: UIView {
             emailTextField.topAnchor.constraint(
                 equalTo: nameTextField.bottomAnchor, constant: 16),
             emailTextField.centerXAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+                equalTo: contentWrapper.centerXAnchor),
             emailTextField.widthAnchor.constraint(equalToConstant: 300),
             emailTextField.heightAnchor.constraint(equalToConstant: 30),
 
             phoneTextField.topAnchor.constraint(
                 equalTo: emailTextField.bottomAnchor, constant: 16),
             phoneTextField.centerXAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+                equalTo: contentWrapper.centerXAnchor),
             phoneTextField.widthAnchor.constraint(equalToConstant: 300),
             phoneTextField.heightAnchor.constraint(equalToConstant: 30),
 
